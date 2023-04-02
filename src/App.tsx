@@ -11,7 +11,7 @@ function App() {
   const [notes, setNotes] = useState(getInitialData());
   const [noteId, setNoteId] = useState<number | null>(null);
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
-  const [filterName, setFilterName] = useState<null | string>(null);
+  const [filterName, setFilterName] = useState<string>("");
   const [formAddVisible, setFormAddVisible] = useState<boolean>(false);
 
   const noteMemo = useMemo(() => {
@@ -25,8 +25,16 @@ function App() {
       return note.archived == (filter == "archived");
     });
 
+    if (filterName != "") {
+      filteredData = filteredData.filter((note) => {
+        return note.title
+          .toLocaleLowerCase()
+          .includes(filterName.toLocaleLowerCase());
+      });
+    }
+
     return filteredData;
-  }, [notes, filter]);
+  }, [notes, filter, filterName]);
 
   const noteDetailMemo = useMemo(() => {
     if (noteId != null) {
@@ -101,27 +109,6 @@ function App() {
 
             <div className="mr-3 flex gap-3">
               <IconButton
-                title="Arsip Catatan"
-                onClick={() => {}}
-                isActive={false}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </IconButton>
-
-              <IconButton
                 onClick={() => toggleArchivefilter()}
                 title="Arsip Catatan"
                 isActive={filter == "archived"}
@@ -194,6 +181,39 @@ function App() {
       </aside>
 
       <main className="hidden max-h-screen flex-col overflow-y-auto md:flex md:w-2/3">
+        <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex justify-between border-b-2 bg-main-white pb-3 pt-4">
+          <div className="ml-auto mr-6">
+            <label className="flex items-center rounded-md border-2 border-red-200 p-2 px-2 focus:outline-none">
+              <input
+                type="text"
+                value={filterName}
+                onChange={(e) => setFilterName(e.target.value)}
+                className="inline-flex min-w-[400px] bg-transparent focus:outline-none"
+              />
+
+              <IconButton
+                title="Arsip Catatan"
+                onClick={() => {}}
+                isActive={true}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </IconButton>
+            </label>
+          </div>
+        </div>
         {noteId == null && formAddVisible && (
           <div className="flex h-full w-full flex-col items-center justify-start px-8 py-16">
             <h1 className="text-3xl">Tambah catatan</h1>
