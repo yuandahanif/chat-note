@@ -1,13 +1,16 @@
 import { MouseEventHandler, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { showFormattedDate } from "../../utils";
 
 const NoteListItem: React.FC<{
   id?: string;
   title: string;
   body: string;
+  created_at: string;
   onDelete?: () => void;
   onArchive?: () => void;
-}> = ({ body, id, title, onArchive, onDelete }) => {
+  onDetailClick?: () => void;
+}> = ({ body, id, created_at, title, onArchive, onDelete, onDetailClick }) => {
   const [isMenuExpand, setIsMenuExpand] = useState(false);
 
   const toggleMenuExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -19,13 +22,15 @@ const NoteListItem: React.FC<{
     <div className="flex items-stretch justify-start rounded-md bg-[#FDEBED] text-slate-700">
       <button
         type="button"
+        onClick={() => onDetailClick && onDetailClick()}
         className="w-full rounded-l-md p-2 duration-300 hover:bg-[#F4BFBF] hover:text-white"
       >
-        <div className="flex justify-start ">
+        <div className="flex justify-start flex-col items-start">
           <span className="line-clamp-1 text-lg font-medium">{title}</span>
+          <span className="text-xs">{showFormattedDate(created_at)}</span>
         </div>
         <div className="flex justify-start">
-          <p className="line-clamp-1 text-left text-sm">{body}</p>
+          <p className="line-clamp-2 text-left text-sm">{body}</p>
         </div>
       </button>
 
@@ -65,7 +70,7 @@ const NoteListItem: React.FC<{
           <button
             title="Arsipkan Catatan"
             onClick={() => {
-              onDelete && onDelete();
+              onArchive && onArchive();
             }}
             className="p-2 px-4 duration-300 hover:bg-[#FD8A8A] hover:text-white"
           >
