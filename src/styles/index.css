@@ -10,6 +10,7 @@
   -webkit-text-size-adjust: 100%;
 }
 
+/* SCROLL */
 *::-webkit-scrollbar {
   width: 0.3em;
 }
@@ -19,6 +20,20 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #F4BFBF;
+  background-color: #f4bfbf;
   /* outline: 1px solid slategrey; */
+}
+
+/* LOGO */
+#logo_svg {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  animation: dash 4s ease-out forwards;
+  stroke: #f4bfbf;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
 }

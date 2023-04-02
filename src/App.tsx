@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import { twMerge } from "tailwind-merge";
+import LogoHandDraw from "./assets/LogoHandDraw";
 import NoteListItem from "./components/list/note_item";
-import { getInitialData } from "./utils";
+import { getInitialData, showFormattedDate } from "./utils";
 
 function App() {
   const [notes, setNotes] = useState(getInitialData());
@@ -21,6 +23,13 @@ function App() {
     return filteredData;
   }, [notes, filter]);
 
+  const noteDetailMemo = useMemo(() => {
+    if (noteId != null) {
+      return notes.filter((note) => note.id == noteId)[0];
+    }
+    return null;
+  }, [noteId]);
+
   const openNote = (id: number) => {
     setNoteId(id);
   };
@@ -34,6 +43,7 @@ function App() {
   };
 
   const deleteNote = (id: number) => {
+    setNoteId(null);
     setNotes((state) => {
       const newNotes = state.filter((note) => note.id != id);
       return newNotes;
@@ -41,6 +51,7 @@ function App() {
   };
 
   const toggleArchive = (id: number) => {
+    setNoteId(null);
     setNotes((state) => {
       const newNotes = state.map((note) => {
         if (note.id == id) {
@@ -56,7 +67,7 @@ function App() {
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">
       <aside className="relative flex h-auto max-h-screen w-full flex-col gap-y-5 overflow-y-auto overflow-x-hidden border-r p-2 pb-5 pt-0 md:w-1/3">
-        <div className=" flex flex-col grow">
+        <div className=" flex grow flex-col">
           <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex justify-between border-b-2 bg-main-white pb-3 pt-4">
             <h2 className="text-xl font-semibold">
               {filter == "unarchived" ? "Catatanku" : "Arsip catatanku"}
@@ -66,7 +77,10 @@ function App() {
               <button
                 onClick={() => toggleArchivefilter()}
                 title="Arsip Catatan"
-                className="duration-300 hover:text-[#F4BFBF]"
+                className={twMerge(
+                  "duration-300 hover:text-[#F4BFBF]",
+                  filter == "archived" ? "text-[#F4BFBF]" : "text-slate-700"
+                )}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -134,6 +148,10 @@ function App() {
       <main className="hidden flex-col md:flex md:w-2/3">
         {noteId == null && (
           <div className="flex h-full w-full flex-col items-center justify-center">
+            <div>
+              <LogoHandDraw />
+            </div>
+
             <span className="text-xl">
               Tulis catatanmu seolah kamu menulis surat cinta untuk dirinya.
             </span>
@@ -162,27 +180,20 @@ function App() {
           </div>
         )}
 
-        {noteId != null && (
-          <div className="p-5">
-            <h1>Detail Module</h1>
-
-            <div>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-                voluptatibus quis rerum repellendus explicabo unde minima.
-                Repellendus distinctio sit exercitationem illum et amet
-                consectetur, officiis suscipit vero quo possimus iste doloribus
-                laboriosam voluptatibus laborum nihil, repellat ullam alias
-                consequuntur. Dolore fugit nisi eaque dignissimos unde, sapiente
-                nemo ad neque impedit commodi quod soluta animi saepe iste quasi
-                excepturi dicta tempora. Nulla laboriosam, corporis
-                exercitationem quam nisi debitis iste amet sapiente voluptatum
-                incidunt cupiditate commodi necessitatibus magni sed impedit
-                eius vel facilis iusto. Qui voluptate vel minus velit
-                temporibus. Non perspiciatis molestiae voluptatibus reiciendis
-                maiores corporis voluptas doloribus obcaecati quae? Voluptas.
-              </p>
+        {noteDetailMemo != null && (
+          <div className="mx-auto p-5 py-12">
+            <div className="mb-4 flex flex-col gap-3">
+              <h1 className="text-3xl font-semibold text-slate-700 ">
+                {noteDetailMemo.title}
+              </h1>
+              <span className="text-xs">
+                {showFormattedDate(noteDetailMemo.createdAt)}
+              </span>
             </div>
+
+            <article className="prose prose-lg prose-slate">
+              <p>{noteDetailMemo.body}</p>
+            </article>
           </div>
         )}
       </main>
