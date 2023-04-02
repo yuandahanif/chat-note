@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        main: { darak: "#242424" },
+        main: { white: "#F9F9F9" },
       },
     },
   },
