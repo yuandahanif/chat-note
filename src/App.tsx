@@ -14,11 +14,18 @@ function App() {
     return filteredData;
   }, [notes]);
 
+  const deleteNote = (id: number) => {
+    setNotes((state) => {
+      const newNotes = state.filter((note) => note.id != id);
+      return newNotes;
+    });
+  };
+
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">
-      <aside className="relative flex h-full max-h-screen w-full flex-col gap-y-5 overflow-y-auto border-r p-2 pb-10 pt-0 md:w-1/3">
+      <aside className="relative flex h-full max-h-screen w-full flex-col gap-y-5 overflow-y-auto overflow-x-hidden border-r p-2 pb-10 pt-0 md:w-1/3">
         <div className=" flex flex-col">
-          <div className="sticky left-0 right-0 top-0 mb-2 flex justify-between border-b-2 bg-main-white pb-3 pt-4">
+          <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex justify-between border-b-2 bg-main-white pb-3 pt-4">
             <h2 className="text-xl font-semibold">Catatanku</h2>
 
             <div>
@@ -44,11 +51,17 @@ function App() {
 
           <div className="flex flex-col gap-x-2 gap-y-2">
             {noteMemo.map((note) => (
-              <NoteListItem key={note.id} title={note.title} body={note.body} />
+              <NoteListItem
+                key={note.id}
+                title={note.title}
+                body={note.body}
+                onDelete={() => deleteNote(note.id)}
+              />
             ))}
           </div>
         </div>
       </aside>
+
       <main className="hidden flex-col md:flex md:w-2/3">
         <div className="flex h-full w-full flex-col items-center justify-center">
           <svg
@@ -70,14 +83,17 @@ function App() {
             Tulis catatanmu seolah kau menulis surat cinta untuk dirinya.
           </span>
 
-          <button type="button" className="flex mt-10">
+          <button
+            type="button"
+            className="mt-10 flex items-center gap-3 rounded-md bg-red-200 p-3 text-white duration-300 hover:bg-red-300"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="h-6 w-6"
+              className="h-5 w-5"
             >
               <path
                 strokeLinecap="round"
@@ -86,7 +102,7 @@ function App() {
               />
             </svg>
 
-            <span>Mulai Menuis</span>
+            <span>Mulai Menulis</span>
           </button>
         </div>
       </main>

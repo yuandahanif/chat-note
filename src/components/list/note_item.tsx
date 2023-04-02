@@ -5,15 +5,14 @@ const NoteListItem: React.FC<{
   id?: string;
   title: string;
   body: string;
-}> = ({ body, id, title }) => {
+  onDelete?: () => void;
+  onArchive?: () => void;
+}> = ({ body, id, title, onArchive, onDelete }) => {
   const [isMenuExpand, setIsMenuExpand] = useState(false);
-  const menuRef = useRef<null | HTMLDivElement>(null);
 
   const toggleMenuExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    if (menuRef.current) {
-      setIsMenuExpand((s) => !s);
-    }
+    setIsMenuExpand((s) => !s);
   };
 
   return (
@@ -33,7 +32,7 @@ const NoteListItem: React.FC<{
       <div className="flex">
         <button
           onClick={toggleMenuExpand}
-          title="Hapus Catatan"
+          title={isMenuExpand ? "Tutup menu" : "Buka menu"}
           className="p-2 px-4 duration-300 hover:bg-[#FD8A8A] hover:text-white"
         >
           <svg
@@ -56,14 +55,18 @@ const NoteListItem: React.FC<{
         </button>
 
         <div
-          ref={menuRef}
           className={twMerge(
-            "origin-right duration-500 flex overflow-hidden",
-            isMenuExpand ? "static visible scale-x-100" : "absolute invisible scale-x-50 -z-20"
+            "flex origin-right overflow-hidden duration-500",
+            isMenuExpand
+              ? "visible static scale-x-100"
+              : "invisible absolute -z-20 scale-x-50"
           )}
         >
           <button
-            title="Hapus Catatan"
+            title="Arsipkan Catatan"
+            onClick={() => {
+              onDelete && onDelete();
+            }}
             className="p-2 px-4 duration-300 hover:bg-[#FD8A8A] hover:text-white"
           >
             <svg
@@ -81,8 +84,12 @@ const NoteListItem: React.FC<{
               />
             </svg>
           </button>
+
           <button
             title="Hapus Catatan"
+            onClick={() => {
+              onDelete && onDelete();
+            }}
             className=" rounded-r-md p-2 px-4 duration-300 hover:bg-[#FD8A8A] hover:text-white"
           >
             <svg
