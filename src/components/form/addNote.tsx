@@ -26,6 +26,7 @@ const AddNoteForm: React.FC<{
         </div>
         <input
           type="text"
+          placeholder="Judul disini"
           maxLength={TITLE_LIMIT}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -36,6 +37,7 @@ const AddNoteForm: React.FC<{
         <span className="mb-2 text-lg">Konten</span>
         <textarea
           value={content}
+          placeholder="konten disini"
           onChange={(e) => setContent(e.target.value)}
           className="rounded-md border-2 border-red-200 p-2 px-2 focus:outline-none"
           rows={10}

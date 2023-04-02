@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import LogoHandDraw from "./assets/LogoHandDraw";
+import IconButton from "./components/buttons/IconButton";
+import DetailNoteCard from "./components/card/detail_note";
 import AddNoteForm from "./components/form/addNote";
 import NoteListItem from "./components/list/note_item";
-import { getInitialData, showFormattedDate } from "./utils";
+import { getInitialData } from "./utils";
 
 function App() {
   const [notes, setNotes] = useState(getInitialData());
@@ -98,9 +100,10 @@ function App() {
             </h2>
 
             <div className="mr-3 flex gap-3">
-              <button
+              <IconButton
                 title="Arsip Catatan"
-                className={twMerge("duration-300 hover:text-[#F4BFBF]")}
+                onClick={() => {}}
+                isActive={false}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,15 +119,12 @@ function App() {
                     d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                   />
                 </svg>
-              </button>
+              </IconButton>
 
-              <button
+              <IconButton
                 onClick={() => toggleArchivefilter()}
                 title="Arsip Catatan"
-                className={twMerge(
-                  "duration-300 hover:text-[#F4BFBF]",
-                  filter == "archived" ? "text-[#F4BFBF]" : "text-slate-700"
-                )}
+                isActive={filter == "archived"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -140,15 +140,12 @@ function App() {
                     d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
                   />
                 </svg>
-              </button>
+              </IconButton>
 
-              <button
+              <IconButton
                 onClick={toggleCreateNoteForm}
                 title="Tambah Catatan"
-                className={twMerge(
-                  "duration-300 hover:text-[#F4BFBF]",
-                  formAddVisible ? "text-[#F4BFBF]" : "text-slate-700"
-                )}
+                isActive={formAddVisible}
               >
                 <svg
                   aria-label="Tambah"
@@ -165,7 +162,7 @@ function App() {
                     d="M12 4.5v15m7.5-7.5h-15"
                   />
                 </svg>
-              </button>
+              </IconButton>
             </div>
           </div>
 
@@ -196,11 +193,10 @@ function App() {
         </div>
       </aside>
 
-      <main className="hidden flex-col md:flex md:w-2/3 max-h-screen overflow-y-auto">
+      <main className="hidden max-h-screen flex-col overflow-y-auto md:flex md:w-2/3">
         {noteId == null && formAddVisible && (
           <div className="flex h-full w-full flex-col items-center justify-start px-8 py-16">
             <h1 className="text-3xl">Tambah catatan</h1>
-
             <AddNoteForm onSubmit={addNote} />
           </div>
         )}
@@ -243,20 +239,11 @@ function App() {
         )}
 
         {noteDetailMemo != null && (
-          <div className="mx-auto p-5 py-12">
-            <div className="mb-4 flex flex-col gap-3">
-              <h1 className="text-3xl font-semibold text-slate-700 ">
-                {noteDetailMemo.title}
-              </h1>
-              <span className="text-xs">
-                {showFormattedDate(noteDetailMemo.createdAt)}
-              </span>
-            </div>
-
-            <article className="prose prose-lg prose-slate">
-              <p>{noteDetailMemo.body}</p>
-            </article>
-          </div>
+          <DetailNoteCard
+            title={noteDetailMemo.title}
+            createdAt={noteDetailMemo.createdAt}
+            body={noteDetailMemo.body}
+          />
         )}
       </main>
     </div>
