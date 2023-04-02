@@ -3,14 +3,24 @@ import { twMerge } from "tailwind-merge";
 import { showFormattedDate } from "../../utils";
 
 const NoteListItem: React.FC<{
-  id?: string;
+  id?: number;
+  active_id?: number;
   title: string;
   body: string;
   created_at: string;
   onDelete?: () => void;
   onArchive?: () => void;
   onDetailClick?: () => void;
-}> = ({ body, id, created_at, title, onArchive, onDelete, onDetailClick }) => {
+}> = ({
+  body,
+  id,
+  created_at,
+  title,
+  onArchive,
+  onDelete,
+  onDetailClick,
+  active_id = -1,
+}) => {
   const [isMenuExpand, setIsMenuExpand] = useState(false);
 
   const toggleMenuExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -23,9 +33,12 @@ const NoteListItem: React.FC<{
       <button
         type="button"
         onClick={() => onDetailClick && onDetailClick()}
-        className="w-full rounded-l-md p-2 duration-300 hover:bg-[#F4BFBF] hover:text-white"
+        className={twMerge(
+          "w-full rounded-l-md p-2 duration-300 hover:bg-[#F4BFBF] hover:text-white",
+          active_id == id && "bg-[#F4BFBF]"
+        )}
       >
-        <div className="flex justify-start flex-col items-start">
+        <div className="flex flex-col items-start justify-start">
           <span className="line-clamp-1 text-lg font-medium">{title}</span>
           <span className="text-xs">{showFormattedDate(created_at)}</span>
         </div>

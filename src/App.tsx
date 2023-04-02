@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import LogoHandDraw from "./assets/LogoHandDraw";
+import AddNoteForm from "./components/form/addNote";
 import NoteListItem from "./components/list/note_item";
 import { getInitialData, showFormattedDate } from "./utils";
 
@@ -8,6 +9,8 @@ function App() {
   const [notes, setNotes] = useState(getInitialData());
   const [noteId, setNoteId] = useState<number | null>(null);
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
+  const [filterName, setFilterName] = useState<null | string>(null);
+  const [formAddVisible, setFormAddVisible] = useState<boolean>(false);
 
   const noteMemo = useMemo(() => {
     let filteredData = notes.sort((p, n) => {
@@ -31,10 +34,12 @@ function App() {
   }, [noteId]);
 
   const openNote = (id: number) => {
+    setFormAddVisible(false);
     setNoteId(id);
   };
 
   const toggleArchivefilter = () => {
+    setFormAddVisible(false);
     setNoteId(null);
 
     setFilter((s) => {
@@ -64,6 +69,25 @@ function App() {
     });
   };
 
+  const toggleCreateNoteForm = () => {
+    setNoteId(null);
+    setFormAddVisible((s) => !s);
+  };
+
+  const addNote = (title: string, content: string) => {
+    setNotes((state) => {
+      const newData: (typeof notes)[number] = {
+        id: state[state.length - 1].id + 1,
+        title,
+        body: content,
+        createdAt: new Date().toString(),
+        archived: false,
+      };
+
+      return [...state, newData];
+    });
+  };
+
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">
       <aside className="relative flex h-auto max-h-screen w-full flex-col gap-y-5 overflow-y-auto overflow-x-hidden border-r p-2 pb-5 pt-0 md:w-1/3">
@@ -74,6 +98,26 @@ function App() {
             </h2>
 
             <div className="mr-3 flex gap-3">
+              <button
+                title="Arsip Catatan"
+                className={twMerge("duration-300 hover:text-[#F4BFBF]")}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </button>
+
               <button
                 onClick={() => toggleArchivefilter()}
                 title="Arsip Catatan"
@@ -97,9 +141,14 @@ function App() {
                   />
                 </svg>
               </button>
+
               <button
+                onClick={toggleCreateNoteForm}
                 title="Tambah Catatan"
-                className="duration-300 hover:text-[#F4BFBF]"
+                className={twMerge(
+                  "duration-300 hover:text-[#F4BFBF]",
+                  formAddVisible ? "text-[#F4BFBF]" : "text-slate-700"
+                )}
               >
                 <svg
                   aria-label="Tambah"
@@ -129,6 +178,8 @@ function App() {
                       key={note.id}
                       title={note.title}
                       body={note.body}
+                      id={note.id}
+                      active_id={noteId ?? 0}
                       created_at={note.createdAt}
                       onDetailClick={() => openNote(note.id)}
                       onDelete={() => deleteNote(note.id)}
@@ -145,20 +196,29 @@ function App() {
         </div>
       </aside>
 
-      <main className="hidden flex-col md:flex md:w-2/3">
-        {noteId == null && (
+      <main className="hidden flex-col md:flex md:w-2/3 max-h-screen overflow-y-auto">
+        {noteId == null && formAddVisible && (
+          <div className="flex h-full w-full flex-col items-center justify-start px-8 py-16">
+            <h1 className="text-3xl">Tambah catatan</h1>
+
+            <AddNoteForm onSubmit={addNote} />
+          </div>
+        )}
+
+        {noteId == null && formAddVisible == false && (
           <div className="flex h-full w-full flex-col items-center justify-center">
             <div>
               <LogoHandDraw />
             </div>
 
             <span className="text-xl">
-              Tulis catatanmu seolah kamu menulis surat cinta untuk dirinya.
+              Tulis catatanmu seperti kamu menulis surat cinta untuk dirinya.
             </span>
 
             <button
               type="button"
-              className="mt-10 flex items-center gap-3 rounded-md bg-red-300 p-3 text-white duration-300 hover:bg-red-400"
+              onClick={toggleCreateNoteForm}
+              className="mt-10 flex items-center rounded-md bg-red-300 p-3 text-white duration-300 hover:bg-red-400"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +226,7 @@ function App() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="h-5 w-5"
+                className="mr-2 h-5 w-5"
               >
                 <path
                   strokeLinecap="round"
@@ -175,7 +235,9 @@ function App() {
                 />
               </svg>
 
-              <span>Mulai Menulis</span>
+              <span className="inline-flex border-l border-white pl-2">
+                Mulai Menulis
+              </span>
             </button>
           </div>
         )}
