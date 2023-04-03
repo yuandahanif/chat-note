@@ -5,8 +5,8 @@ import { showFormattedDate } from "../../utils";
 import PropTypes from "prop-types";
 
 const NoteListItem: React.FC<{
-  id?: number;
-  active_id?: number;
+  id?: string;
+  active_id?: string;
   title: string;
   body: string;
   created_at: string;
@@ -134,8 +134,8 @@ const NoteListItem: React.FC<{
 };
 
 NoteListItem.propTypes = {
-  id: PropTypes.number,
-  active_id: PropTypes.number,
+  id: PropTypes.string,
+  active_id: PropTypes.string,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   created_at: PropTypes.string.isRequired,

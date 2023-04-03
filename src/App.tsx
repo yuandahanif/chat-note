@@ -1,15 +1,18 @@
-import { useMemo, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import LogoHandDraw from "./assets/LogoHandDraw";
+import { useContext, useMemo, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import IconButton from "./components/buttons/IconButton";
 import DetailNoteCard from "./components/card/detail_note";
 import AddNoteForm from "./components/form/addNote";
 import NoteListItem from "./components/list/note_item";
-import { getInitialData } from "./utils";
+import NoteContext from "./contexts/note.context";
+import { getAllNotes } from "./utils";
 
 function App() {
-  const [notes, setNotes] = useState(getInitialData());
-  const [noteId, setNoteId] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  const { notes, deleteNote, toggleArchiveNote } = useContext(NoteContext);
+
+  const [noteId, setNoteId] = useState<string | null>(null);
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
   const [filterName, setFilterName] = useState<string>("");
   const [formAddVisible, setFormAddVisible] = useState<boolean>(false);
@@ -36,16 +39,10 @@ function App() {
     return filteredData;
   }, [notes, filter, filterName]);
 
-  const noteDetailMemo = useMemo(() => {
-    if (noteId != null) {
-      return notes.filter((note) => note.id == noteId)[0];
-    }
-    return null;
-  }, [noteId]);
-
-  const openNote = (id: number) => {
+  const openNote = (id: string) => {
     setFormAddVisible(false);
     setNoteId(id);
+    navigate(`/note/${id}`);
   };
 
   const toggleArchivefilter = () => {
@@ -57,45 +54,16 @@ function App() {
     });
   };
 
-  const deleteNote = (id: number) => {
-    setNoteId(null);
-    setNotes((state) => {
-      const newNotes = state.filter((note) => note.id != id);
-      return newNotes;
-    });
+  const onDelete = (id: string) => {
+    deleteNote(id);
   };
 
-  const toggleArchive = (id: number) => {
-    setNoteId(null);
-    setNotes((state) => {
-      const newNotes = state.map((note) => {
-        if (note.id == id) {
-          note.archived = !note.archived;
-        }
-        return note;
-      });
-
-      return newNotes;
-    });
+  const toggleArchive = (id: string) => {
+    toggleArchiveNote(id);
   };
 
   const toggleCreateNoteForm = () => {
-    setNoteId(null);
-    setFormAddVisible((s) => !s);
-  };
-
-  const addNote = (title: string, content: string) => {
-    setNotes((state) => {
-      const newData: (typeof notes)[number] = {
-        id: state[state.length - 1].id + 1,
-        title,
-        body: content,
-        createdAt: new Date().toString(),
-        archived: false,
-      };
-
-      return [...state, newData];
-    });
+    navigate(`/note/add`);
   };
 
   return (
@@ -163,10 +131,10 @@ function App() {
                       title={note.title}
                       body={note.body}
                       id={note.id}
-                      active_id={noteId ?? 0}
+                      active_id={noteId || ""}
                       created_at={note.createdAt}
                       onDetailClick={() => openNote(note.id)}
-                      onDelete={() => deleteNote(note.id)}
+                      onDelete={() => onDelete(note.id)}
                       onArchive={() => toggleArchive(note.id)}
                     />
                   )
@@ -214,57 +182,16 @@ function App() {
             </label>
           </div>
         </div>
-        {noteId == null && formAddVisible && (
-          <div className="flex h-full w-full flex-col items-center justify-start px-8 py-16">
-            <h1 className="text-3xl">Tambah catatan</h1>
-            <AddNoteForm onSubmit={addNote} />
-          </div>
-        )}
 
-        {noteId == null && formAddVisible == false && (
-          <div className="flex h-full w-full flex-col items-center justify-center">
-            <div>
-              <LogoHandDraw />
-            </div>
+        <Outlet />
 
-            <span className="text-xl">
-              Tulis catatanmu seperti kamu menulis surat cinta untuk dirinya.
-            </span>
-
-            <button
-              type="button"
-              onClick={toggleCreateNoteForm}
-              className="mt-10 flex items-center rounded-md bg-red-300 p-3 text-white duration-300 hover:bg-red-400"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="mr-2 h-5 w-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                />
-              </svg>
-
-              <span className="inline-flex border-l border-white pl-2">
-                Mulai Menulis
-              </span>
-            </button>
-          </div>
-        )}
-
-        {noteDetailMemo != null && (
+        {/* {noteDetailMemo != null && (
           <DetailNoteCard
             title={noteDetailMemo.title}
             createdAt={noteDetailMemo.createdAt}
             body={noteDetailMemo.body}
           />
-        )}
+        )} */}
       </main>
     </div>
   );
