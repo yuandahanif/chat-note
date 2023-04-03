@@ -1,6 +1,6 @@
 import { useRouteError } from "react-router-dom";
 
-export default function Error404Page() {
+const Error404Page = () => {
   const error = useRouteError() as { statusText?: string; message?: string };
   console.error(error);
 
@@ -15,4 +15,6 @@ export default function Error404Page() {
       </p>
     </div>
   );
-}
+};
+
+export default Error404Page;

@@ -5,11 +5,12 @@ import "./styles/index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Error404Page from "./pages/404";
+import Landing from "./pages/landing/landing";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>helo</div>,
+    element: <Landing />,
     errorElement: <Error404Page />,
   },
   {
