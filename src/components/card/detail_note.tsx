@@ -1,4 +1,5 @@
 import { showFormattedDate } from "../../utils";
+import PropTypes from "prop-types";
 
 const DetailNoteCard: React.FC<{
   title: string;
@@ -17,6 +18,12 @@ const DetailNoteCard: React.FC<{
       </article>
     </div>
   );
+};
+
+DetailNoteCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 
 export default DetailNoteCard;

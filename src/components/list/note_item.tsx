@@ -2,6 +2,8 @@ import { MouseEventHandler, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { showFormattedDate } from "../../utils";
 
+import PropTypes from "prop-types";
+
 const NoteListItem: React.FC<{
   id?: number;
   active_id?: number;
@@ -129,6 +131,17 @@ const NoteListItem: React.FC<{
       </div>
     </div>
   );
+};
+
+NoteListItem.propTypes = {
+  id: PropTypes.number,
+  active_id: PropTypes.number,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  created_at: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onArchive: PropTypes.func.isRequired,
+  onDetailClick: PropTypes.func.isRequired,
 };
 
 export default NoteListItem;

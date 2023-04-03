@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import PropTypes from "prop-types";
 
 const IconButton: React.FC<{
   onClick: () => void;
@@ -19,6 +20,13 @@ const IconButton: React.FC<{
       {children}
     </button>
   );
+};
+
+IconButton.propTypes = {
+  isActive: PropTypes.bool.isRequired,
+  title: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 export default IconButton;

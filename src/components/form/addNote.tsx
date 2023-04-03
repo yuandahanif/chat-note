@@ -1,4 +1,5 @@
 import { FormEventHandler, useState } from "react";
+import PropTypes from "prop-types";
 
 const TITLE_LIMIT = 50;
 
@@ -52,6 +53,10 @@ const AddNoteForm: React.FC<{
       </button>
     </form>
   );
+};
+
+AddNoteForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AddNoteForm;
