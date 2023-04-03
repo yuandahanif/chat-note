@@ -11,6 +11,10 @@ import router from "./routes/route";
 const Main: React.FC = () => {
   const [notes, setNotes] = useState(initNotes);
 
+  const getNote = (id: string) => {
+    return notes.find((note) => note.id === id);
+  };
+
   const addNotes = (title: string, body: string) =>
     setNotes((notes) => {
       return [
@@ -59,7 +63,14 @@ const Main: React.FC = () => {
 
   return (
     <NoteContext.Provider
-      value={{ notes, addNotes, deleteNote, editNote, toggleArchiveNote }}
+      value={{
+        notes,
+        addNotes,
+        deleteNote,
+        editNote,
+        toggleArchiveNote,
+        getNote,
+      }}
     >
       <RouterProvider router={router} />
     </NoteContext.Provider>

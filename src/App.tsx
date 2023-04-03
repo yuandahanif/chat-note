@@ -184,14 +184,6 @@ function App() {
         </div>
 
         <Outlet />
-
-        {/* {noteDetailMemo != null && (
-          <DetailNoteCard
-            title={noteDetailMemo.title}
-            createdAt={noteDetailMemo.createdAt}
-            body={noteDetailMemo.body}
-          />
-        )} */}
       </main>
     </div>
   );

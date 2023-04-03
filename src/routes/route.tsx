@@ -3,6 +3,7 @@ import App from "../App";
 import Error404Page from "../pages/404";
 import AddNote from "../pages/add/add";
 import Landing from "../pages/landing/landing";
+import DetailNote from "../pages/note/detail";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
         ),
       },
       { path: "/note/add", element: <AddNote /> },
-      { path: "/note/:id", element: <div>id</div> },
+      { path: "/note/:id", element: <DetailNote /> },
     ],
   },
 ]);

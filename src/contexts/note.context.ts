@@ -13,6 +13,7 @@ const NoteContext = createContext<{
   editNote: (id: string, title: string, body: string) => void;
   deleteNote: (id: string) => void;
   toggleArchiveNote: (id: string) => void;
+  getNote: (id: string) => note | undefined;
 }>({
   notes: [],
   addNotes: function (title: string, body: string): void {
@@ -25,6 +26,9 @@ const NoteContext = createContext<{
     throw new Error("Function not implemented.");
   },
   toggleArchiveNote: function (id: string): void {
+    throw new Error("Function not implemented.");
+  },
+  getNote: function (id: string): note {
     throw new Error("Function not implemented.");
   },
 });
