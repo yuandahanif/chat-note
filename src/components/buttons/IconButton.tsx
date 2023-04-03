@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const IconButton: React.FC<{
   onClick: () => void;
-  isActive: boolean;
+  isActive?: boolean;
   children: ReactNode;
   title?: string;
 }> = ({ onClick, isActive, children, title }) => {
@@ -23,7 +23,7 @@ const IconButton: React.FC<{
 };
 
 IconButton.propTypes = {
-  isActive: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
   title: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   children: PropTypes.node,

@@ -1,21 +1,24 @@
-import { useContext, useMemo, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { ChangeEventHandler, useContext, useMemo, useState } from "react";
+import {
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import IconButton from "./components/buttons/IconButton";
-import DetailNoteCard from "./components/card/detail_note";
-import AddNoteForm from "./components/form/addNote";
 import NoteListItem from "./components/list/note_item";
 import NoteContext from "./contexts/note.context";
-import { getAllNotes } from "./utils";
 
 function App() {
   const navigate = useNavigate();
-
+  const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { notes, deleteNote, toggleArchiveNote } = useContext(NoteContext);
 
-  const [noteId, setNoteId] = useState<string | null>(null);
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
-  const [filterName, setFilterName] = useState<string>("");
-  const [formAddVisible, setFormAddVisible] = useState<boolean>(false);
+  const [filterName, setFilterName] = useState<string>(
+    searchParams.get("q") || ""
+  );
 
   const noteMemo = useMemo(() => {
     let filteredData = notes.sort((p, n) => {
@@ -40,15 +43,10 @@ function App() {
   }, [notes, filter, filterName]);
 
   const openNote = (id: string) => {
-    setFormAddVisible(false);
-    setNoteId(id);
     navigate(`/note/${id}`);
   };
 
   const toggleArchivefilter = () => {
-    setFormAddVisible(false);
-    setNoteId(null);
-
     setFilter((s) => {
       return s == "archived" ? "unarchived" : "archived";
     });
@@ -64,6 +62,11 @@ function App() {
 
   const toggleCreateNoteForm = () => {
     navigate(`/note/add`);
+  };
+
+  const onSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setFilterName(e.target.value);
+    setSearchParams(`q=${e.target.value}`);
   };
 
   return (
@@ -97,11 +100,7 @@ function App() {
                 </svg>
               </IconButton>
 
-              <IconButton
-                onClick={toggleCreateNoteForm}
-                title="Tambah Catatan"
-                isActive={formAddVisible}
-              >
+              <IconButton onClick={toggleCreateNoteForm} title="Tambah Catatan">
                 <svg
                   aria-label="Tambah"
                   xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +130,7 @@ function App() {
                       title={note.title}
                       body={note.body}
                       id={note.id}
-                      active_id={noteId || ""}
+                      active_id={id || ""}
                       created_at={note.createdAt}
                       onDetailClick={() => openNote(note.id)}
                       onDelete={() => onDelete(note.id)}
@@ -155,7 +154,7 @@ function App() {
               <input
                 type="text"
                 value={filterName}
-                onChange={(e) => setFilterName(e.target.value)}
+                onChange={onSearch}
                 className="inline-flex min-w-[400px] bg-transparent focus:outline-none"
               />
 

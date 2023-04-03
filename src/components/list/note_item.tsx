@@ -1,6 +1,7 @@
 import { MouseEventHandler, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { showFormattedDate } from "../../utils";
+import parser from "html-react-parser";
 
 import PropTypes from "prop-types";
 
@@ -45,7 +46,7 @@ const NoteListItem: React.FC<{
           <span className="text-xs">{showFormattedDate(created_at)}</span>
         </div>
         <div className="flex justify-start">
-          <p className="line-clamp-2 text-left text-sm">{body}</p>
+          <p className="line-clamp-2 text-left text-sm">{parser(body)}</p>
         </div>
       </button>
 

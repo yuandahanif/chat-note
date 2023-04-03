@@ -36,13 +36,12 @@ const AddNoteForm: React.FC<{
       </label>
       <label className="flex w-full flex-col">
         <span className="mb-2 text-lg">Konten</span>
-        <textarea
-          value={content}
+        <div
           placeholder="konten disini"
-          onChange={(e) => setContent(e.target.value)}
+          onInput={(e) => setContent(e.currentTarget.innerHTML)}
           className="rounded-md border-2 border-red-200 p-2 px-2 focus:outline-none"
-          rows={10}
-        ></textarea>
+          contentEditable
+        ></div>
       </label>
 
       <button
