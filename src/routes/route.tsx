@@ -5,6 +5,7 @@ import AddNote from "@pages/add/add";
 import Register from "@pages/auth/register";
 import Landing from "@pages/landing/landing";
 import DetailNote from "@pages/note/detail";
+import Login from "@pages/auth/login";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+    errorElement: <Error404Page />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
     errorElement: <Error404Page />,
   },
   {

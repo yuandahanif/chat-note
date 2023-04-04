@@ -19,11 +19,11 @@ const Input: React.FC<Props> = ({
         {...props}
         onChange={onChange}
         className={twMerge(
-          "peer rounded-md border-2 border-red-200 p-2 px-2 invalid:border-red-700 focus:outline-none",
+          "peer rounded-md border-2  border-red-200 p-2 px-2 focus:outline-none",
           className
         )}
       />
-      <span className="hidden mt-2 text-sm text-pink-600 peer-invalid:inline-block">
+      <span className="mt-2 hidden text-sm text-pink-600 peer-invalid:inline-block">
         {errorMessage}
       </span>
     </label>

@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 import Button from "@components/buttons/button";
 import Input from "@components/form/input";
 import MainLayout from "@layouts/main.layout";
-import { getAccessToken, register } from "@utils/network-data";
+import { getAccessToken, login, register } from "@utils/network-data";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "@hooks/useInput";
 
-const Register = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [accseToken] = useState(getAccessToken());
-  const [name, setNameOnChange] = useInput("");
-  const [email, setEmailOnChange] = useInput("");
-  const [password, setPasswordOnChange] = useInput("");
+  const [name, setNameOnChange] = useInput();
+  const [email, setEmailOnChange] = useInput();
+  const [password, setPasswordOnChange] = useInput();
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     try {
       e.preventDefault();
-      const res = await register({ email, name, password });
+      const res = await login({ email, password });
       if (res.error) {
         throw new Error("");
       }
       alert("berhasil");
-      navigate("/login");
+      navigate("/note");
     } catch (error) {
       console.error(error);
       alert("gagal mendaftar");
@@ -37,24 +37,17 @@ const Register = () => {
   return (
     <MainLayout>
       <div className="flex w-full flex-col items-center justify-center">
-        <h1 className="text-5xl font-semibold text-slate-600">Daftar</h1>
+        <h1 className="text-5xl font-semibold text-slate-600">Masuk</h1>
 
         <form className="flex flex-col gap-y-4" onSubmit={onSubmit}>
-          <Input
-            required
-            value={name}
-            onChange={setNameOnChange}
-            label="Nama"
-            className="min-w-[500px]"
-          />
           <Input
             required
             errorMessage="email tidak valid"
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             value={email}
+            type="email"
             onChange={setEmailOnChange}
             label="Email"
-            type="email"
             className="min-w-[500px] invalid:border-pink-600"
           />
           <Input
@@ -67,9 +60,9 @@ const Register = () => {
           />
 
           <span className="ml-auto">
-            Sudah punya akun?{" "}
-            <Link to={"/login"}>
-              <span className="underline">Masuk</span>
+            Belum punya akun?{" "}
+            <Link to={"/register"}>
+              <span className="underline">Daftar</span>
             </Link>
           </span>
 
@@ -80,4 +73,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
