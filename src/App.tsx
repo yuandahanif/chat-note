@@ -11,10 +11,10 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import IconButton from "./components/buttons/IconButton";
-import NoteListItem from "./components/list/note_item";
+import IconButton from "@components/buttons/iconButton";
+import NoteListItem from "@components/list/note_item";
 import NoteContext from "./contexts/note.context";
-import { getAccessToken } from "./utils/network-data";
+import { getAccessToken } from "@utils/network-data";
 
 function App() {
   const navigate = useNavigate();

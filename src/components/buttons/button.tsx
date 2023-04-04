@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import PropTypes from "prop-types";
-interface Props extends React.HTMLAttributes<HTMLButtonElement> {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
 }
 
@@ -25,8 +25,6 @@ const Button: React.FC<Props> = ({
 
 Button.propTypes = {
   isActive: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default Button;

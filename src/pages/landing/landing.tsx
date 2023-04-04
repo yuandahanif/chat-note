@@ -1,7 +1,7 @@
 import LogoHandDraw from "../../assets/LogoHandDraw";
 import { Link } from "react-router-dom";
-import MainLayout from "../../layouts/main.layout";
-import ButtonWithIcon from "../../components/buttons/ButtonWithIcon";
+import MainLayout from "@layouts/main.layout";
+import ButtonWithIcon from "@components/buttons/buttonWithIcon";
 
 const Landing = () => {
   return (

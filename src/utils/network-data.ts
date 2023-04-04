@@ -1,8 +1,8 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 interface api_response<T = {}> {
-  status: "success";
-  message: "User logged successfully";
+  status: "success" | "fail";
+  message: string;
   data: T;
 }
 
@@ -77,7 +77,7 @@ async function register({
     body: JSON.stringify({ name, email, password }),
   });
 
-  const responseJson = await response.json();
+  const responseJson = (await response.json()) as Omit<api_response, "data">;
 
   if (responseJson.status !== "success") {
     alert(responseJson.message);

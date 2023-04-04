@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Error404Page from "../pages/404";
-import AddNote from "../pages/add/add";
-import Register from "../pages/auth/register";
-import Landing from "../pages/landing/landing";
-import DetailNote from "../pages/note/detail";
+import Error404Page from "@pages/404";
+import AddNote from "@pages/add/add";
+import Register from "@pages/auth/register";
+import Landing from "@pages/landing/landing";
+import DetailNote from "@pages/note/detail";
 
 const router = createBrowserRouter([
   {
