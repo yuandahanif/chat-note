@@ -6,6 +6,7 @@ const AddNote = () => {
   const navigate = useNavigate();
   const onSubmit = async (title: string, body: string) => {
     try {
+      // FIXME: rerender
       await addNote({ title, body });
       navigate("/note");
     } catch (error) {

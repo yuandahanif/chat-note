@@ -14,7 +14,15 @@ import {
 import IconButton from "@components/buttons/iconButton";
 import NoteListItem from "@components/list/note_item";
 import NoteContext from "./contexts/note.context";
-import { getAccessToken, getActiveNotes, note } from "@utils/network-data";
+import {
+  archiveNote,
+  deleteNote,
+  getAccessToken,
+  getActiveNotes,
+  getArchivedNotes,
+  note,
+  unarchiveNote,
+} from "@utils/network-data";
 
 function App() {
   const navigate = useNavigate();
@@ -22,6 +30,7 @@ function App() {
   const [accseToken] = useState(getAccessToken());
   const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = useState<null | note[]>(null);
+  const [refetch, setRefetch] = useState<boolean>(false);
 
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
   const [filterName, setFilterName] = useState<string>(
@@ -30,6 +39,7 @@ function App() {
 
   const noteMemo = useMemo(() => {
     if (notes == null) return [];
+
     let filteredData = notes.sort((p, n) => {
       const p_date = new Date(p.createdAt).getTime();
       const n_date = new Date(n.createdAt).getTime();
@@ -45,7 +55,7 @@ function App() {
     }
 
     return filteredData;
-  }, [notes, filter, filterName]);
+  }, [notes, filterName]);
 
   const openNote = (id: string) => {
     navigate(`/note/${id}`);
@@ -57,12 +67,28 @@ function App() {
     });
   };
 
-  const onDelete = (id: string) => {
-    // deleteNote(id);
+  const onDelete = async (id: string) => {
+    try {
+      await deleteNote(id);
+      setRefetch((s) => !s);
+    } catch (error) {
+      console.error(error);
+      alert("error deleting note");
+    }
   };
 
-  const toggleArchive = (id: string) => {
-    // toggleArchiveNote(id);
+  const toggleArchive = async (id: string, isArchived: boolean) => {
+    try {
+      if (isArchived) {
+        await unarchiveNote(id);
+      } else {
+        await archiveNote(id);
+      }
+      setRefetch((s) => !s);
+    } catch (error) {
+      console.error(error);
+      alert("error archive note");
+    }
   };
 
   const toggleCreateNoteForm = () => {
@@ -83,18 +109,20 @@ function App() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await getActiveNotes();
+        const data = await (filter == "unarchived"
+          ? getActiveNotes()
+          : getArchivedNotes());
         if (!data.error) {
           setNotes(data.data);
         }
       } catch (error) {
-        alert("failed to fetch active note");
-        console.error("error fetching active note: ", error);
+        alert("failed to fetch note");
+        console.error("error fetching note: ", error);
       }
     };
 
     getData();
-  }, []);
+  }, [filter, refetch]);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">
@@ -161,7 +189,7 @@ function App() {
                       created_at={note.createdAt}
                       onDetailClick={() => openNote(note.id)}
                       onDelete={() => onDelete(note.id)}
-                      onArchive={() => toggleArchive(note.id)}
+                      onArchive={() => toggleArchive(note.id, note.archived)}
                     />
                   )
               )
