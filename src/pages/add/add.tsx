@@ -1,12 +1,17 @@
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import AddNoteForm from "../../components/form/addNote";
-import NoteContext from "../../contexts/note.context";
+import { addNote } from "../../utils/network-data";
 
 const AddNote = () => {
-  const { addNotes } = useContext(NoteContext);
-
-  const onSubmit = (title: string, body: string) => {
-    addNotes(title, body);
+  const navigate = useNavigate();
+  const onSubmit = async (title: string, body: string) => {
+    try {
+      await addNote({ title, body });
+      navigate("/note");
+    } catch (error) {
+      alert("error");
+      console.error("error add note:", error);
+    }
   };
 
   return (

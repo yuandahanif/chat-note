@@ -1,4 +1,10 @@
-import { ChangeEventHandler, useContext, useMemo, useState } from "react";
+import {
+  ChangeEventHandler,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   Outlet,
   useNavigate,
@@ -8,10 +14,12 @@ import {
 import IconButton from "./components/buttons/IconButton";
 import NoteListItem from "./components/list/note_item";
 import NoteContext from "./contexts/note.context";
+import { getAccessToken } from "./utils/network-data";
 
 function App() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [accseToken] = useState(getAccessToken());
   const [searchParams, setSearchParams] = useSearchParams();
   const { notes, deleteNote, toggleArchiveNote } = useContext(NoteContext);
 
@@ -68,6 +76,12 @@ function App() {
     setFilterName(e.target.value);
     setSearchParams(`q=${e.target.value}`);
   };
+
+  useEffect(() => {
+    if (!accseToken) {
+      navigate("/");
+    }
+  }, [accseToken]);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">

@@ -1,35 +1,32 @@
 import { twMerge } from "tailwind-merge";
 import PropTypes from "prop-types";
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
-  onClick: () => void;
   isActive?: boolean;
-  title?: string;
 }
 
-const IconButton: React.FC<Props> = ({
-  onClick,
+const Button: React.FC<Props> = ({
   isActive,
   children,
-  title,
+  className,
+  ...rest
 }) => {
   return (
     <button
-      onClick={onClick}
-      title={title}
+      {...rest}
       className={twMerge(
-        "duration-300 hover:text-[#F4BFBF]",
-        isActive ? "text-[#F4BFBF]" : "text-slate-700"
+        "flex items-center rounded-md bg-red-300 p-3 text-white duration-300 hover:bg-red-400",
+        className
       )}
     >
-      {children}
+      <span className="inline-flex ">{children}</span>
     </button>
   );
 };
 
-IconButton.propTypes = {
+Button.propTypes = {
   isActive: PropTypes.bool,
-  title: PropTypes.string,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
-export default IconButton;
+export default Button;
