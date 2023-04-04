@@ -14,14 +14,14 @@ import {
 import IconButton from "@components/buttons/iconButton";
 import NoteListItem from "@components/list/note_item";
 import NoteContext from "./contexts/note.context";
-import { getAccessToken } from "@utils/network-data";
+import { getAccessToken, getActiveNotes, note } from "@utils/network-data";
 
 function App() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [accseToken] = useState(getAccessToken());
   const [searchParams, setSearchParams] = useSearchParams();
-  const { notes, deleteNote, toggleArchiveNote } = useContext(NoteContext);
+  const [notes, setNotes] = useState<null | note[]>(null);
 
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
   const [filterName, setFilterName] = useState<string>(
@@ -29,14 +29,11 @@ function App() {
   );
 
   const noteMemo = useMemo(() => {
+    if (notes == null) return [];
     let filteredData = notes.sort((p, n) => {
       const p_date = new Date(p.createdAt).getTime();
       const n_date = new Date(n.createdAt).getTime();
       return n_date - p_date;
-    });
-
-    filteredData = filteredData.filter((note) => {
-      return note.archived == (filter == "archived");
     });
 
     if (filterName != "") {
@@ -61,11 +58,11 @@ function App() {
   };
 
   const onDelete = (id: string) => {
-    deleteNote(id);
+    // deleteNote(id);
   };
 
   const toggleArchive = (id: string) => {
-    toggleArchiveNote(id);
+    // toggleArchiveNote(id);
   };
 
   const toggleCreateNoteForm = () => {
@@ -82,6 +79,22 @@ function App() {
       navigate("/");
     }
   }, [accseToken]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await getActiveNotes();
+        if (!data.error) {
+          setNotes(data.data);
+        }
+      } catch (error) {
+        alert("failed to fetch active note");
+        console.error("error fetching active note: ", error);
+      }
+    };
+
+    getData();
+  }, []);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">

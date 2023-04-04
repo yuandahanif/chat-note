@@ -6,7 +6,7 @@ interface api_response<T = {}> {
   data: T;
 }
 
-type note = {
+export type note = {
   id: string;
   title: string;
   body: string;

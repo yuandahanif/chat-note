@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import AddNoteForm from "../../components/form/addNote";
-import { addNote } from "../../utils/network-data";
+import AddNoteForm from "@components/form/addNote";
+import { addNote } from "@utils/network-data";
 
 const AddNote = () => {
   const navigate = useNavigate();

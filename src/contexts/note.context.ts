@@ -1,6 +1,6 @@
 import { createContext, Dispatch } from "react";
 
-export type note = {
+type note = {
   id: string;
   title: string;
   body: string;
