@@ -3,10 +3,12 @@ import { addNote } from "@utils/network-data";
 import { FormEventHandler, useState } from "react";
 import Input from "@components/form/input";
 import useInput from "@hooks/useInput";
+import useLocalization from "@hooks/useLocalization";
 
 const TITLE_LIMIT = 50;
 
 const AddNote = () => {
+  const t = useLocalization();
   const navigate = useNavigate();
   const [title, setTitleOnChange] = useInput("");
 
@@ -25,7 +27,7 @@ const AddNote = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-start px-8 py-16">
-      <h1 className="text-3xl">Tambah catatan</h1>
+      <h1 className="text-3xl">{t("addNote")}</h1>
       <form onSubmit={onFormSubmit} className="flex w-full flex-col gap-y-4">
         <label className="flex w-full flex-col">
           <Input
@@ -33,7 +35,7 @@ const AddNote = () => {
             value={title}
             type="text"
             onChange={setTitleOnChange}
-            label="Judul"
+            label={t("title")}
             className="min-w-[500px]"
           />
           <div className="flex items-end justify-between">
@@ -44,7 +46,7 @@ const AddNote = () => {
         </label>
 
         <label className="flex w-full flex-col">
-          <span className="mb-2 text-lg">Konten</span>
+          <span className="mb-2 text-lg">{t("content")}</span>
           <div
             placeholder="konten disini"
             onInput={(e) => setContent(e.currentTarget.innerHTML)}

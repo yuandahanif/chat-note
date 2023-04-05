@@ -5,8 +5,10 @@ import MainLayout from "@layouts/main.layout";
 import { getAccessToken, register } from "@utils/network-data";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "@hooks/useInput";
+import useLocalization from "@hooks/useLocalization";
 
 const Register = () => {
+  const t = useLocalization();
   const navigate = useNavigate();
   const [accseToken] = useState(getAccessToken());
   const [name, setNameOnChange] = useInput("");
@@ -38,7 +40,9 @@ const Register = () => {
   return (
     <MainLayout>
       <div className="flex w-full flex-col items-center justify-center">
-        <h1 className="text-5xl font-semibold text-slate-600 dark:text-white">Daftar</h1>
+        <h1 className="text-5xl font-semibold text-slate-600 dark:text-white">
+          {t("register")}
+        </h1>
 
         <form className="flex flex-col gap-y-4" onSubmit={onSubmit}>
           <Input
@@ -72,7 +76,7 @@ const Register = () => {
             value={confirmPassword}
             onChange={setConfirmPasswordOnChange}
             type="password"
-            label="Konfirmasi password"
+            label={t("confirmPassword")}
             className="min-w-[500px]"
           />
 
@@ -83,9 +87,9 @@ const Register = () => {
           </span>
 
           <span className="ml-auto">
-            Sudah punya akun?{" "}
+            {t("alreadyHaveAnAccount")}{" "}
             <Link to={"/login"}>
-              <span className="underline">Masuk</span>
+              <span className="underline">{t("login")}</span>
             </Link>
           </span>
 
@@ -93,7 +97,7 @@ const Register = () => {
             disabled={confirmPassword != password || password == ""}
             className="justify-center text-center"
           >
-            Daftar
+            {t("register")}
           </Button>
         </form>
       </div>

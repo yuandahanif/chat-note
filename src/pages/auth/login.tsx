@@ -5,11 +5,13 @@ import MainLayout from "@layouts/main.layout";
 import { getAccessToken, login, register } from "@utils/network-data";
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "@hooks/useInput";
+import useLocalization from "@hooks/useLocalization";
 
 const Login = () => {
+  const t = useLocalization();
+
   const navigate = useNavigate();
   const [accseToken] = useState(getAccessToken());
-  const [name, setNameOnChange] = useInput();
   const [email, setEmailOnChange] = useInput();
   const [password, setPasswordOnChange] = useInput();
 
@@ -37,7 +39,9 @@ const Login = () => {
   return (
     <MainLayout>
       <div className="flex w-full flex-col items-center justify-center">
-        <h1 className="text-5xl font-semibold text-slate-600 dark:text-white">Masuk</h1>
+        <h1 className="text-5xl font-semibold text-slate-600 dark:text-white">
+          {t("login")}
+        </h1>
 
         <form className="flex flex-col gap-y-4" onSubmit={onSubmit}>
           <Input
@@ -62,11 +66,11 @@ const Login = () => {
           <span className="ml-auto">
             Belum punya akun?{" "}
             <Link to={"/register"}>
-              <span className="underline">Daftar</span>
+              <span className="underline"> {t("register")}</span>
             </Link>
           </span>
 
-          <Button className="justify-center text-center">Daftar</Button>
+          <Button className="justify-center text-center">{t("login")}</Button>
         </form>
       </div>
     </MainLayout>
