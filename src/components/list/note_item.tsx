@@ -46,7 +46,7 @@ const NoteListItem: React.FC<{
           <span className="text-xs">{showFormattedDate(created_at)}</span>
         </div>
         <div className="flex justify-start">
-          <p className="line-clamp-2 text-left text-sm">{parser(body)}</p>
+          <div className="line-clamp-2 text-left text-sm">{parser(body)}</div>
         </div>
       </button>
 
