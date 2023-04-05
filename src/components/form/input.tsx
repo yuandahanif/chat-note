@@ -13,13 +13,13 @@ const Input: React.FC<Props> = ({
   ...props
 }) => {
   return (
-    <label className="flex w-full flex-col">
+    <label className="flex w-full flex-col ">
       <span className="mb-1 text-lg peer-invalid:text-red-500">{label}</span>
       <input
         {...props}
         onChange={onChange}
         className={twMerge(
-          "peer rounded-md border-2  border-red-200 p-2 px-2 focus:outline-none",
+          "peer rounded-md border-2 dark:text-slate-600  border-red-200 p-2 px-2 focus:outline-none",
           className
         )}
       />

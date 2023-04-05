@@ -18,6 +18,7 @@ import {
 } from "@utils/network-data";
 import SimpleProfile from "@components/profile/simple_profile";
 import ThemeSwitcher from "@components/theme/swticher.theme";
+import MainLayout from "@layouts/main.layout";
 
 function App() {
   const navigate = useNavigate();
@@ -122,15 +123,15 @@ function App() {
   }, [filter, refetch]);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md dark:bg-slate-700">
+    <MainLayout>
       <aside className="relative flex h-auto max-h-screen w-full flex-col gap-y-5 overflow-y-auto overflow-x-hidden border-r p-2 pt-0 md:w-1/3">
         <div className=" flex grow flex-col pb-2">
-          <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex justify-between border-b-2 bg-main-white pb-3 pt-4">
+          <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex justify-between border-b-2 pb-3 pt-4 dark:bg-gray-800 bg-white">
             <h2 className="text-xl font-semibold">
               {filter == "unarchived" ? "Catatanku" : "Arsip catatanku"}
             </h2>
 
-            <div className="mr-3 flex gap-3">
+            <div className="mr-3 flex gap-3 ">
               <IconButton
                 onClick={() => toggleArchivefilter()}
                 title="Arsip Catatan"
@@ -202,9 +203,9 @@ function App() {
       </aside>
 
       <main className="hidden max-h-screen flex-col overflow-y-auto md:flex md:w-2/3">
-        <div className="sticky left-0 right-0 top-0 z-50 mb-2 px-8 flex border-b-2 bg-main-white pb-3 pt-4">
+        <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex border-b-2 px-8 pb-3 pt-4">
           <div className="ml-auto mr-6">
-            <label className="flex items-center rounded-md border-2 border-red-200 p-2 px-2 focus:outline-none">
+            <label className="flex items-center rounded-md border-2 dark:border-white border-red-200 p-2 px-2 focus:outline-none">
               <input
                 type="text"
                 value={filterName}
@@ -239,7 +240,7 @@ function App() {
 
         <Outlet />
       </main>
-    </div>
+    </MainLayout>
   );
 }
 

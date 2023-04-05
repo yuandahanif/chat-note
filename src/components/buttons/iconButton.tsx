@@ -18,7 +18,7 @@ const IconButton: React.FC<Props> = ({
       title={title}
       className={twMerge(
         "duration-300 hover:text-[#F4BFBF]",
-        isActive ? "text-[#F4BFBF]" : "text-slate-700"
+        isActive ? "text-[#F4BFBF]" : "text-slate-700 dark:text-white"
       )}
     >
       {children}

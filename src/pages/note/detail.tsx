@@ -31,13 +31,13 @@ const DetailNote = () => {
       {note ? (
         <div className="p-5 py-12">
           <div className="mb-4 flex flex-col gap-3">
-            <h1 className="text-3xl font-semibold text-slate-700 ">
+            <h1 className="text-3xl font-semibold dark:text-inherit text-slate-700 ">
               {note.title}
             </h1>
             <span className="text-xs">{showFormattedDate(note.createdAt)}</span>
           </div>
 
-          <article className="prose prose-lg prose-slate">
+          <article className="prose prose-lg prose-slate  dark:text-inherit">
             <p>{parser(note.body)}</p>
           </article>
         </div>

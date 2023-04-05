@@ -32,7 +32,7 @@ const NoteListItem: React.FC<{
   };
 
   return (
-    <div className="flex items-stretch justify-start rounded-md bg-[#FDEBED] text-slate-700">
+    <div className="flex items-stretch justify-start rounded-md dark:bg-slate-400 bg-[#FDEBED] text-slate-700">
       <button
         type="button"
         onClick={() => onDetailClick && onDetailClick()}

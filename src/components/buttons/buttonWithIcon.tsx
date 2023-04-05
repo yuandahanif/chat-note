@@ -20,7 +20,7 @@ const ButtonWithIcon: React.FC<Props> = ({
       {...rest}
       type="button"
       className={twMerge(
-        "flex items-center rounded-md bg-red-300 p-3 text-white duration-300 hover:bg-red-400",
+        "flex items-center rounded-md bg-red-300 p-3 dark:text-inherit text-white duration-300 hover:bg-red-400",
         className
       )}
     >
@@ -34,7 +34,6 @@ ButtonWithIcon.propTypes = {
   isActive: PropTypes.bool,
   title: PropTypes.string.isRequired,
   icon: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default ButtonWithIcon;

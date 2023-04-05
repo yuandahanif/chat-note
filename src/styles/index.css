@@ -9,6 +9,10 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+/* BG */
+* {
+  transition: background-color 500ms;
+}
 
 /* SCROLL */
 *::-webkit-scrollbar {

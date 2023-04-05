@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <MainLayout>
       <div className="flex w-full flex-col items-center justify-center">
-        <h1 className="text-5xl font-semibold text-slate-600">Masuk</h1>
+        <h1 className="text-5xl font-semibold text-slate-600 dark:text-white">Masuk</h1>
 
         <form className="flex flex-col gap-y-4" onSubmit={onSubmit}>
           <Input

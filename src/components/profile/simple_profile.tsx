@@ -27,7 +27,7 @@ const SimpleProfile = () => {
     getProfile();
   }, []);
   return (
-    <div className="sticky bottom-0 left-0 right-0 z-50 flex justify-between rounded-md bg-white p-5 shadow-md">
+    <div className="sticky bottom-0 left-0 right-0 z-50 flex justify-between rounded-md dark:bg-gray-700 bg-white p-5 shadow-md">
       <span className="line-clamp-1">{profile?.name}</span>
 
       <div>
