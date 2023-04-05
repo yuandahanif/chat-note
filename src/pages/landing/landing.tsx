@@ -14,7 +14,7 @@ const Landing = () => {
         </span>
 
         <div className=" mt-10 flex items-center gap-x-5">
-          <Link to={`note/`}>
+          <Link to={`login/`}>
             <ButtonWithIcon
               title="Masuk"
               icon={

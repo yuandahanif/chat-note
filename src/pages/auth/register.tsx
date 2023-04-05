@@ -12,6 +12,7 @@ const Register = () => {
   const [name, setNameOnChange] = useInput("");
   const [email, setEmailOnChange] = useInput("");
   const [password, setPasswordOnChange] = useInput("");
+  const [confirmPassword, setConfirmPasswordOnChange] = useInput("");
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     try {
@@ -66,6 +67,21 @@ const Register = () => {
             className="min-w-[500px]"
           />
 
+          <Input
+            required
+            value={confirmPassword}
+            onChange={setConfirmPasswordOnChange}
+            type="password"
+            label="Konfirmasi password"
+            className="min-w-[500px]"
+          />
+
+          <span className="text-red-500">
+            {confirmPassword != password &&
+              password != "" &&
+              "password harus sama."}
+          </span>
+
           <span className="ml-auto">
             Sudah punya akun?{" "}
             <Link to={"/login"}>
@@ -73,7 +89,12 @@ const Register = () => {
             </Link>
           </span>
 
-          <Button className="justify-center text-center">Daftar</Button>
+          <Button
+            disabled={confirmPassword != password || password == ""}
+            className="justify-center text-center"
+          >
+            Daftar
+          </Button>
         </form>
       </div>
     </MainLayout>

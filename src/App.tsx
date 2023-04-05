@@ -1,10 +1,4 @@
-import {
-  ChangeEventHandler,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEventHandler, useEffect, useMemo, useState } from "react";
 import {
   Outlet,
   useNavigate,
@@ -13,7 +7,6 @@ import {
 } from "react-router-dom";
 import IconButton from "@components/buttons/iconButton";
 import NoteListItem from "@components/list/note_item";
-import NoteContext from "./contexts/note.context";
 import {
   archiveNote,
   deleteNote,
@@ -23,14 +16,16 @@ import {
   note,
   unarchiveNote,
 } from "@utils/network-data";
+import SimpleProfile from "@components/profile/simple_profile";
 
 function App() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [accseToken] = useState(getAccessToken());
-  const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = useState<null | note[]>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [filter, setFilter] = useState<"unarchived" | "archived">("unarchived");
   const [filterName, setFilterName] = useState<string>(
@@ -112,6 +107,7 @@ function App() {
         const data = await (filter == "unarchived"
           ? getActiveNotes()
           : getArchivedNotes());
+
         if (!data.error) {
           setNotes(data.data);
         }
@@ -126,8 +122,8 @@ function App() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-screen-2xl bg-main-white shadow-md">
-      <aside className="relative flex h-auto max-h-screen w-full flex-col gap-y-5 overflow-y-auto overflow-x-hidden border-r p-2 pb-5 pt-0 md:w-1/3">
-        <div className=" flex grow flex-col">
+      <aside className="relative flex h-auto max-h-screen w-full flex-col gap-y-5 overflow-y-auto overflow-x-hidden border-r p-2 pt-0 md:w-1/3">
+        <div className=" flex grow flex-col pb-2">
           <div className="sticky left-0 right-0 top-0 z-50 mb-2 flex justify-between border-b-2 bg-main-white pb-3 pt-4">
             <h2 className="text-xl font-semibold">
               {filter == "unarchived" ? "Catatanku" : "Arsip catatanku"}
@@ -200,6 +196,8 @@ function App() {
             )}
           </div>
         </div>
+
+        <SimpleProfile />
       </aside>
 
       <main className="hidden max-h-screen flex-col overflow-y-auto md:flex md:w-2/3">

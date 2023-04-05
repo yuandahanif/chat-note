@@ -14,7 +14,7 @@ export type note = {
   archived: boolean;
 };
 
-type user = {
+export type user = {
   id: string;
   name: string;
   email: string;
@@ -26,6 +26,10 @@ function getAccessToken() {
 
 function putAccessToken(accessToken: string) {
   return localStorage.setItem("accessToken", accessToken);
+}
+
+function removeAccessToken() {
+  return localStorage.removeItem("accessToken");
 }
 
 async function fetchWithToken(url: string, options: RequestInit = {}) {
@@ -204,4 +208,5 @@ export {
   archiveNote,
   unarchiveNote,
   deleteNote,
+  removeAccessToken,
 };

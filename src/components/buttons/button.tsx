@@ -14,7 +14,7 @@ const Button: React.FC<Props> = ({
     <button
       {...rest}
       className={twMerge(
-        "flex items-center rounded-md bg-red-300 p-3 text-white duration-300 hover:bg-red-400",
+        "flex items-center rounded-md bg-red-300 disabled:hover:bg-red-300 p-3 text-white duration-300 hover:bg-red-400",
         className
       )}
     >
