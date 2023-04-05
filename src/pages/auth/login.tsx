@@ -26,7 +26,7 @@ const Login = () => {
       navigate("/note");
     } catch (error) {
       console.error(error);
-      alert("gagal mendaftar");
+      alert("gagal masuk");
     }
   };
 
