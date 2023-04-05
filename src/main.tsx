@@ -10,9 +10,15 @@ import ThemeContext, {
   theme,
   toggleThemeLocalStorage,
 } from "./contexts/theme.contex";
+import LocalizationContext, {
+  getLanguageLocalStorage,
+  language,
+  toggleLanguageLocalStorage,
+} from "./contexts/localization.context";
 
 const Main: React.FC = () => {
   const [theme, setTheme] = useState<theme>(getThemeLocalStorage());
+  const [lang, setLang] = useState<language>(getLanguageLocalStorage() || "id");
 
   const toggleTheme = () => {
     toggleThemeLocalStorage();
@@ -21,6 +27,17 @@ const Main: React.FC = () => {
         return "dark";
       } else {
         return "light";
+      }
+    });
+  };
+
+  const toggleLang = () => {
+    toggleLanguageLocalStorage();
+    setLang((s) => {
+      if (s == "id") {
+        return "en";
+      } else {
+        return "id";
       }
     });
   };
@@ -35,7 +52,11 @@ const Main: React.FC = () => {
 
   return (
     <ThemeContext.Provider value={{ theme: theme, toggleTheme }}>
-      <RouterProvider router={router} />
+      <LocalizationContext.Provider
+        value={{ language: lang, toggleLanguage: toggleLang }}
+      >
+        <RouterProvider router={router} />
+      </LocalizationContext.Provider>
     </ThemeContext.Provider>
   );
 };

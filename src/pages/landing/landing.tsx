@@ -2,8 +2,10 @@ import LogoHandDraw from "../../assets/LogoHandDraw";
 import { Link } from "react-router-dom";
 import MainLayout from "@layouts/main.layout";
 import ButtonWithIcon from "@components/buttons/buttonWithIcon";
+import useLocalization from "@hooks/useLocalization";
 
 const Landing = () => {
+  const t = useLocalization();
   return (
     <MainLayout>
       <div className="flex h-auto w-full flex-col items-center justify-center">
@@ -35,7 +37,7 @@ const Landing = () => {
               }
             />
           </Link>
-          <span>atau</span>
+          <span>{t("or")}</span>
           <Link to={`register/`}>
             <ButtonWithIcon
               title="Daftar"
